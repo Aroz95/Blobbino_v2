@@ -10,7 +10,9 @@ export function Hide({ run, pal, setMsg, setScore, finish }: GameProps) {
   const [blobBox, setBlobBox] = useState<number | null>(null);
   const [dur, setDur] = useState(300);
   const [locked, setLocked] = useState(true);
-  const g = useRef({ hid: 0, streak: 0, pos: [0, 1, 2], alive: () => false });
+  const g = useRef<{ hid: number; streak: number; pos: number[]; alive: () => boolean }>(
+    { hid: 0, streak: 0, pos: [0, 1, 2], alive: () => false }
+  );
 
   const lift = (i: number, v: boolean) => setUp(u => u.map((x, j) => (j === i ? v : x)));
 

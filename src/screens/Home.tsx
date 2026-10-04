@@ -143,16 +143,17 @@ function WishCard({ s, now, onWish }: { s: GameState | null; now: number; onWish
 }
 
 function Actions({ s, onAction }: { s: GameState | null; onAction: (a: ActionId) => void }) {
-  const live = !!s && s.stage !== 'egg' && !s.walk;
-  const need: Partial<Record<ActionId, boolean>> = live ? {
-    meal: s.hunger < 30, drink: s.thirst < 30, play: s.fun < 30, cuddle: s.trust < 40,
-    bath: s.hygiene < 30 || s.poops > 0, medicine: s.sick, light: !s.sleeping && s.energy < 20
+  // "pet" è il blob solo quando è nato e si trova in casa: altrimenti i pulsanti sono spenti.
+  const pet = s && s.stage !== 'egg' && !s.walk ? s : null;
+  const need: Partial<Record<ActionId, boolean>> = pet ? {
+    meal: pet.hunger < 30, drink: pet.thirst < 30, play: pet.fun < 30, cuddle: pet.trust < 40,
+    bath: pet.hygiene < 30 || pet.poops > 0, medicine: pet.sick, light: !pet.sleeping && pet.energy < 20
   } : {};
-  const wished = live && s.wish ? WISH_ACTION[s.wish.type] : undefined;
+  const wished = pet?.wish ? WISH_ACTION[pet.wish.type] : undefined;
   return (
     <nav className="actions" aria-label="Azioni">
       {ACTIONS.map(({ id, label }) => {
-        const off = !live || (s.sleeping && id !== 'light' && id !== 'cuddle') || (id === 'medicine' && !s.sick);
+        const off = !pet || (pet.sleeping && id !== 'light' && id !== 'cuddle') || (id === 'medicine' && !pet.sick);
         const cls = 'act' + (wished === id ? ' wished' : need[id] ? ' need' : '');
         return (
           <button key={id} className={cls} type="button" aria-disabled={off} onClick={() => onAction(id)}>

@@ -12,7 +12,7 @@ const PADS = [
 export function Memory({ run, setMsg, setScore, finish }: GameProps) {
   const [lit, setLit] = useState<number | null>(null);
   const [locked, setLocked] = useState(true);
-  const g = useRef({ seq: [] as number[], pos: 0, alive: false });
+  const g = useRef<{ seq: number[]; pos: number; alive: boolean }>({ seq: [], pos: 0, alive: false });
 
   const flash = async (i: number, ms: number) => { setLit(i); tone(PADS[i].note); await wait(ms); setLit(l => (l === i ? null : l)); };
 

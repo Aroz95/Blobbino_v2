@@ -2,7 +2,7 @@
 
 Un blob virtuale da nutrire, coccolare e far crescere. Web app installabile, funziona offline.
 
-**Gioca:** https://aroz95.github.io/Blobbino/
+**Gioca:** https://aroz95.github.io/Blobbino_v2/
 
 ## Tecnologie
 
